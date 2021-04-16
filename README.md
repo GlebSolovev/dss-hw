@@ -23,6 +23,18 @@
       
       /xxHash/...
       ```
+2. Change TinySpeedTest implementation in SpeedTest.cpp to:
+      ```
+      void TinySpeedTest ( pfHash hash, int hashsize, int keysize, uint32_t seed, bool verbose, double &outCycles)
+      {
+      const int trials = 999999;
 
-2. Run `mkdir build && cd build && cmake .. && make` from project folder
-3. You can launch programm: `./main <from> <to> <step>`
+      if(verbose) printf("Small key speed test - %4d-byte keys - ",keysize);
+  
+      outCycles += SpeedTest(hash,seed,trials,keysize,0);
+  
+      //printf("%8.2f cycles/hash\n",cycles);
+      }
+      ```
+3. Run `mkdir build && cd build && cmake .. && make` from project folder
+4. You can launch programm: `./main <from> <to> <step>`
