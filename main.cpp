@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 
@@ -16,11 +17,10 @@ constexpr size_t TITLES_SIZE = sizeof TITLES / sizeof(char*);
 constexpr size_t ITERS = 5;
 
 constexpr int IGNORED_PARAM = 0;
-constexpr int SPEED_TEST_RANDOM_SEED = 0;
+// const int SPEED_TEST_RANDOM_SEED = 0;
 
 inline void test(pfHash hashFunc, uint32_t bytes, double& outCycles) {
-  TinySpeedTest(hashFunc, IGNORED_PARAM, bytes, SPEED_TEST_RANDOM_SEED, false,
-                outCycles);
+  TinySpeedTest(hashFunc, IGNORED_PARAM, bytes, std::time(0), false, outCycles);
 }
 
 void XXH3_64bitsAdapter(const void* key, int len, uint32_t seed, void* out) {
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
   for (std::size_t iter = 0; iter < ITERS; ++iter) {
     for (uint32_t bytes = rangeStart, i = 0; bytes <= rangeUpperBound;
          bytes += step, i++) {
-      test(MurmurHash3_x86_32, bytes, results[i][0]);
+      test(MurmurHash3_x86_128, bytes, results[i][0]);
       test(XXH3_64bitsAdapter, bytes, results[i][1]);
       test(SpookyHashAdapter, bytes, results[i][2]);
     }
