@@ -6,7 +6,7 @@
     * SpookyV2.cpp and SpookyV2.h https://burtleburtle.net/bob/hash/spooky.html
     * xxHash https://github.com/Cyan4973/xxHash
 
-    And directory tree is as follows:
+    and directory tree is as follows:
 
       ```
       top-level folder/
