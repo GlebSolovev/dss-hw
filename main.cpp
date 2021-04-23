@@ -87,7 +87,7 @@ bool testZSTDCompressDecompressCycle(utils::CStringBuff& src,
   size_t decompBytesRes = ZSTD_decompress(
       decomp.getBuff(), compressedFramesSize, dst.getBuff(), writtenBytesRes);
   if (ZSTD_isError(decompBytesRes) ||
-      std::strcmp(decomp.getBuff(), src.getBuff()) != 0) {
+      std::memcmp(decomp.getBuff(), src.getBuff(), decompBytesRes) != 0) {
     std::cerr << "ZSTD_LVL" << zstdCompressionLevel
               << " correctness test failed: filename = " << filename << "\n";
     return false;
@@ -113,7 +113,8 @@ bool testAllAlgosCompressDecompressCycle(utils::CStringBuff src,
   }
   int decompBytesRes = LZ4_decompress_safe(dst.getBuff(), decomp.getBuff(),
                                            writtenBytesRes, decomp.size);
-  if (decompBytesRes < 0 || std::strcmp(decomp.getBuff(), src.getBuff()) != 0) {
+  if (decompBytesRes < 0 ||
+      std::memcmp(decomp.getBuff(), src.getBuff(), decompBytesRes) != 0) {
     std::cerr << "LZ4 correctness test failed: filename = " << filename << "\n";
     return false;
   }
