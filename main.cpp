@@ -160,7 +160,7 @@ std::pair<micros, double> testCompression(utils::CStringBuff& fileInput,
   return std::make_pair<>(
       std::chrono::duration_cast<std::chrono::microseconds>(finish - start)
           .count(),
-      static_cast<double>(writtenBytes) / fileInput.size);
+      static_cast<double>(fileInput.size) / writtenBytes);
 }
 
 int main(int argc, char* argv[]) {
